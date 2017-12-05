@@ -54,25 +54,27 @@ void loop() {
 
 //  matrix.updateDisplay();
     
-  matrix.drawRect(0, 0, matrix.width(), matrix.height(), matrix.Color333(0, 7, 0));
+//  matrix.drawRect(0, 0, matrix.width(), matrix.height(), matrix.Color333(0, 7, 0));
 
   matrix.setTextSize(2);     // size 1 == 8 pixels high
   matrix.setTextWrap(false); // Don't wrap at end of line - will do ourselves
   uint8_t w = 0;
   
-  for (int i = 0; i < 10; i++) {
-    char* timeStr = rtc.getTimeStr(FORMAT_SHORT); 
-
+  char* timeStr = rtc.getTimeStr(FORMAT_SHORT); 
+  for (int i = 0; i < 5; i++) {
+    matrix.setCursor(3, 8);  // start at top left, with 3 pixel of spacing
     r = (r + 4) % 7;
     g = (g + 3) % 7;
-    b = (b + 5) % 7;
+    b = (b + 5) % 7 + 1;
     matrix.setTextColor(matrix.Color333(r, g, b));
-
-    matrix.setCursor(3, 8);  // start at top left, with 3 pixel of spacing
-    for (w=0; w<5; w++) {
+    matrix.drawRect(0, 0, matrix.width(), matrix.height(), matrix.Color333(r, 4, b));
+    for (w=0; w< 5 - 1; w++) {
       matrix.print(timeStr[w]);
+      delay(500);
     }
-    delay(1000);
+    matrix.fillRect(50, 8, 12, 15, 0);
+    matrix.print(timeStr[4]);
+    delay(2000);
   }
 //  delay (5000);
 
